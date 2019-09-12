@@ -1,0 +1,21 @@
+---
+title: "p8105_HW1_rat2134"
+author: "Robert Tumasian"
+date: "9/12/2019"
+output: html_document
+---
+
+```{r}
+###Loading required packages
+library(tidyverse)
+```
+
+```{r}
+###PROBLEM 1
+
+Problem_1_Data_Frame=tibble(rnorm(n = 8, mean = 0, sd = 1),
+                            
+)
+
+```
+
