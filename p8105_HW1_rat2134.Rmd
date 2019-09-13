@@ -7,18 +7,14 @@ output: github_document
 
 ```{r}
 ###Loading required packages
-
 library(tidyverse)
 ```
 
 ```{r}
 ###PROBLEM 1
-
-set.seed(1234) 
-#Set seed to guarantee reproducible results
+set.seed(1234) #Set seed to guarantee reproducible results
 
 #Create data set
-
 Problem_1_df=tibble(
   x = rnorm(n = 8, mean = 0, sd = 1),
   vec_logical = c(x > 0),
@@ -27,12 +23,8 @@ Problem_1_df=tibble(
 )
 
 #Obtaining the mean of each variable in data set
-
 mean(pull(Problem_1_df, x)) 
-#Approximately -0.297
-
-mean(pull(Problem_1_df, vec_logical)) 
-#0.5; half of the elements of x are greater than 0 and half are below 0
+mean(pull(Problem_1_df, vec_logical)) #half of the elements of x are greater than 0 and half are below 0
 
 mean(pull(Problem_1_df, vec_char)) 
 #Argument is neither numeric nor logical; NA produced
