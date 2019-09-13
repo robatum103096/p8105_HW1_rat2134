@@ -2,7 +2,7 @@
 title: "p8105_HW1_rat2134"
 author: "Robert Tumasian"
 date: "9/12/2019"
-output: html_document
+output: Github_document
 ---
 
 ```{r}
@@ -19,11 +19,12 @@ set.seed(1234)
 
 #Create data set
 
-Problem_1_df=tibble(x = rnorm(n = 8, mean = 0, sd = 1),
-                    vec_logical = c(x > 0),
-                    vec_char = c("a","b","c","d","e","f","g","h"),
-                    vec_factor = factor(c("Red","Red","Blue","Red","Green","Green","Red","Red"))
-                    )
+Problem_1_df=tibble(
+  x = rnorm(n = 8, mean = 0, sd = 1),
+  vec_logical = c(x > 0),
+  vec_char = c("a","b","c","d","e","f","g","h"),
+  vec_factor = factor(c("Red","Red","Blue","Red","Green","Green","Red","Red"))
+)
 
 #Obtaining the mean of each variable in data set
 
@@ -53,8 +54,9 @@ as.numeric(pull(Problem_1_df, vec_char))
 as.numeric(pull(Problem_1_df, vec_factor)) 
 #Levels are enumerated alphabetically ("Blue" = 1, "Green" = 2, and "Red" = 3)
 
-###Therefore, it makes sense that we are able to take the mean of vectors that are able to be enuerated (logical and factor vectors), but not vectors we are unable to enumerate (character vectors)
 ```
+
+Therefore, it makes sense that we are able to take the mean of vectors that are able to be enuerated (logical and factor vectors), but not vectors we are unable to enumerate (character vectors)
 
 ```{r}
 #Converting logical vector to numeric, and multiplying the random sample by the result
@@ -71,12 +73,6 @@ as.numeric(as.factor(pull(Problem_1_df, vec_logical))) * pull(Problem_1_df, x)
 
 ```
 
-
-
-
-
-
-
 ```{r}
 ###PROBLEM 2
 
@@ -85,15 +81,13 @@ set.seed(12345)
 
 #Create data set
 
-Problem_2_df=tibble(x = rnorm(n = 500, mean = 0, sd = 1),
-                    y = rnorm(n = 500, mean = 0, sd = 1),
-                    vec_logical = c(x + y > 1),
-                    vec_numeric = as.numeric(vec_logical),
-                    vec_factor = as.factor(vec_logical)
-                    )
-
-
-
+Problem_2_df=tibble(
+  x = rnorm(n = 500, mean = 0, sd = 1),
+  y = rnorm(n = 500, mean = 0, sd = 1),
+  vec_logical = c(x + y > 1),
+  vec_numeric = as.numeric(vec_logical),
+  vec_factor = as.factor(vec_logical)
+)
 ```
 
-
+This data set has `r nrow(Problem_2_df)` rows and `r ncol(Problem_2_df)` columns. The mean, median, and standard deviation of x are `r mean(pull(Problem_2_df, x))`, `r median(pull(Problem_2_df, x))`, and `r sd(pull(Problem_2_df, x))`, respectively. Lastly, the proportion of cases for which `x + y > 1` is `r (length(which(pull(Problem_2_df, vec_logical)) == "TRUE") / length(pull(Problem_2_df, vec_logical)))`. Therefore, 26% of the `x + y` values are greater than 1.
