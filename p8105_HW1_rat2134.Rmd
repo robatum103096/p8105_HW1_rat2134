@@ -27,52 +27,40 @@ mean(pull(Problem_1_df, x))
 mean(pull(Problem_1_df, vec_logical)) #half of the elements of x are greater than 0 and half are below 0
 
 mean(pull(Problem_1_df, vec_char)) 
-#Argument is neither numeric nor logical; NA produced
 
 mean(pull(Problem_1_df, vec_factor)) 
-#Argument is neither numeric nor logical; NA produced
 
 ```
 
 ```{r, eval=FALSE}
 #Converting logical, character, and factor vectors to numeric vectors
+as.numeric(pull(Problem_1_df, vec_logical)) #TRUE values are converted to 1s and FALSE values are converted to 0s
 
-as.numeric(pull(Problem_1_df, vec_logical)) 
-#TRUE values are converted to 1s and FALSE values are converted to 0s
+as.numeric(pull(Problem_1_df, vec_char)) #Vector becomes all NAs, because character vectors cannot be enumerated
 
-as.numeric(pull(Problem_1_df, vec_char)) 
-#Vector becomes all NAs, because character vectors cannot be enumerated
-
-as.numeric(pull(Problem_1_df, vec_factor)) 
-#Levels are enumerated alphabetically ("Blue" = 1, "Green" = 2, and "Red" = 3)
+as.numeric(pull(Problem_1_df, vec_factor)) #Levels are enumerated alphabetically ("Blue" = 1, "Green" = 2, and "Red" = 3)
 
 ```
 
-Therefore, it makes sense that we are able to take the mean of vectors that are able to be enuerated (logical and factor vectors), but not vectors we are unable to enumerate (character vectors)
+It makes sense that we are only able to take the mean of vectors that are able to be enuerated (logical and factor vectors), but not vectors that are unable to be enumerated (character vectors).
 
 ```{r}
 #Converting logical vector to numeric, and multiplying the random sample by the result
-
 as.numeric(pull(Problem_1_df, vec_logical)) * pull(Problem_1_df, x)
 
 #Converting the logical vector to a factor, and multiplying the random sample by the result
-
 as.factor(pull(Problem_1_df, vec_logical)) * pull(Problem_1_df, x)
 
 #Converting the logical vector to a factor and then converting the result to numeric, and multiplying the random sample by the result
-
 as.numeric(as.factor(pull(Problem_1_df, vec_logical))) * pull(Problem_1_df, x)
 
 ```
 
 ```{r}
 ###PROBLEM 2
-
-set.seed(12345)
-#Set seed to guarantee reproducible results
+set.seed(12345) #Set seed to guarantee reproducible results
 
 #Create data set
-
 Problem_2_df=tibble(
   x = rnorm(n = 500, mean = 0, sd = 1),
   y = rnorm(n = 500, mean = 0, sd = 1),
