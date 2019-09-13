@@ -14,7 +14,7 @@ output: github_document
 * **a random sample of size 8 from a standard Normal distribution**
 * **a logical vector indicating whether elements of the sample are greater than 0**
 * **a character vector of length 8**
-* **a factor vector of length 8, with 3 different factor “levels”**
+* **a factor vector of length 8, with 3 different factor "levels"**
 
 ```{r}
 #Loading required packages
@@ -33,7 +33,7 @@ Problem1_df=tibble(
 )
 ```
 
-**Try to take the mean of each variable in your dataframe. What works and what doesn’t?**
+**Try to take the mean of each variable in your dataframe. What works and what doesn't?**
 
 ```{r}
 mean(pull(Problem1_df, x))
@@ -50,16 +50,16 @@ We are able to take the mean of `x` and the logical vector, but we cannot take t
 
 **Write a code chunk that applies the `as.numeric` function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?**
 
-```{r, eval=FALSE}
+```{r, results = "hide", warning = FALSE}
 #Converting logical, character, and factor vectors to numeric vectors
-as.numeric(pull(Problem1_df, vec_logical)) #TRUE values are converted to 1s and FALSE values are converted to 0s
+as.numeric(pull(Problem1_df, vec_logical))
 
-as.numeric(pull(Problem1_df, vec_char)) #Vector becomes all NAs, because character vectors cannot be enumerated
+as.numeric(pull(Problem1_df, vec_char))
 
-as.numeric(pull(Problem1_df, vec_factor)) #Levels are enumerated alphabetically ("Blue" = 1, "Green" = 2, and "Red" = 3)
+as.numeric(pull(Problem1_df, vec_factor))
 ```
 
-When converting the logical vector to a numeric vector, all `TRUE` values are assigned to 1s and all `FALSE` values are assigned to 0s. When converting the character vector to a numerical vector, all elements become `NA`, since chararcter vectors cannot be enumerated. Lastly, when the factor vector is converted into a numerical vector, all elements are enumerated alphabetically ("Blue" = 1, "Green" = 2, and "Red" = 3). It makes sense that we are only able to take the mean of vectors that are able to be enuerated (logical and factor vectors), but not vectors that are unable to be enumerated (character vectors).
+When converting the logical vector to a numeric vector, all `TRUE` values are assigned to 1s and all `FALSE` values are assigned to 0s. When converting the character vector to a numerical vector, all elements become `NA`, since chararcter vectors cannot be enumerated. Lastly, when the factor vector is converted into a numerical vector, all elements are enumerated alphabetically ("Blue" = 1, "Green" = 2, and "Red" = 3). We are only able to take the mean of vectors that are able to be enuerated (logical and factor vectors), but not vectors that are unable to be enumerated (character vectors).
 
 **In a second code chunk:**
 
@@ -114,7 +114,7 @@ Plot1 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_logical)) + geom_point
 Plot1
 ```
 
-In this plot, 
+In this first plot, the color scale assigns all `FALSE` values in `vec_logical` to red and all `TRUE` values to blue. Therefore, all `x + y > 1` will be blue and all `x + y < 1` will be red.
 
 ```{r}
 #Scatterplot of y vs x (coloring points using numeric variable)
@@ -122,7 +122,7 @@ Plot2 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_numeric)) + geom_point
 Plot2
 ```
 
-Here, 
+Here, the values of `vec_numeric` are assigned on a continuous color scale, or spectrum. However, since all values of `vec_numeric` are 0 or 1, there are only two point colors displayed in the plot. Dark blue points represent all points in `vec_logical` that are 0, in which `x + y < 1`. Similarly, light blue points represent all points in `vec_logical` that are 1, in which `x + y > 1`.
 
 ```{r}
 #Scatterplot of y vs x (coloring points using factor variable)
@@ -130,14 +130,14 @@ Plot3 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_factor)) + geom_point(
 Plot3
 ```
 
-Lastly, this plot 
+Lastly, this plot is identical to the first plot. 
 
 **Export your first scatterplot to your project directory using `ggsave`.**
 
 ```{r}
-ggsave("Problem2_First_Scatterplot.png", 
-       device = png,
-       plot = Plot1, 
-       path = "https://github.com/robatum103096/p8105_HW1_rat2134"
+ggsave(filename = "Problem2_First_Scatterplot.pdf", 
+       plot = Plot1,
+       height = 4,
+       width = 6
 )
 ```
