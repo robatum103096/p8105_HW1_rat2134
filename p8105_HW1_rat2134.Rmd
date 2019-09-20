@@ -4,10 +4,14 @@ author: "Robert Tumasian"
 date: "9/12/2019"
 output: github_document
 ---
-
 # Homework 1
 
 ## Problem 1
+
+```{r, message = FALSE}
+#Loading required packages
+library(tidyverse)
+```
 
 **Create a data frame comprised of:**
 
@@ -17,63 +21,65 @@ output: github_document
 * **a factor vector of length 8, with 3 different factor "levels"**
 
 ```{r}
-#Loading required packages
-library(tidyverse)
-```
-
-```{r}
 set.seed(1234) #Set seed to guarantee reproducible results
 
 #Create data set
 Problem1_df=tibble(
-  x = rnorm(n = 8, mean = 0, sd = 1),
-  vec_logical = c(x > 0),
-  vec_char = c("a","b","c","d","e","f","g","h"),
-  vec_factor = factor(c("Red","Red","Blue","Red","Green","Green","Red","Red"))
-)
+  x_p1 = rnorm(n = 8, mean = 0, sd = 1),
+  vec_logical_p1 = c(x_p1 > 0),
+  vec_char_p1 = c("a","b","c","d","e","f","g","h"),
+  vec_factor_p1 = factor(c("Red","Red","Blue","Red","Green","Green","Red","Red"))
+  )
 ```
 
 **Try to take the mean of each variable in your dataframe. What works and what doesn't?**
 
 ```{r}
-mean(pull(Problem1_df, x))
+mean(pull(Problem1_df, x_p1))
 
-mean(pull(Problem1_df, vec_logical))
+mean(pull(Problem1_df, vec_logical_p1))
 
-mean(pull(Problem1_df, vec_char)) 
+mean(pull(Problem1_df, vec_char_p1)) 
 
-mean(pull(Problem1_df, vec_factor))
+mean(pull(Problem1_df, vec_factor_p1))
 ```
 
-We are able to take the mean of `x` and the logical vector, but we cannot take the mean of the character and factor vectors.
-
+We are able to calculate the mean of `x_p1` and the logical vector, but we cannot calculate the mean of the character and factor vectors.
 
 **Write a code chunk that applies the `as.numeric` function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?**
 
-```{r, results = "hide", warning = FALSE}
+```{r, results = 'hide', warning = FALSE}
 #Converting logical, character, and factor vectors to numeric vectors
-as.numeric(pull(Problem1_df, vec_logical))
+as.numeric(pull(Problem1_df, vec_logical_p1))
 
-as.numeric(pull(Problem1_df, vec_char))
+as.numeric(pull(Problem1_df, vec_char_p1))
 
-as.numeric(pull(Problem1_df, vec_factor))
+as.numeric(pull(Problem1_df, vec_factor_p1))
 ```
 
-When converting the logical vector to a numeric vector, all `TRUE` values are assigned to 1s and all `FALSE` values are assigned to 0s. When converting the character vector to a numerical vector, all elements become `NA`, since chararcter vectors cannot be enumerated. Lastly, when the factor vector is converted into a numerical vector, all elements are enumerated alphabetically ("Blue" = 1, "Green" = 2, and "Red" = 3). We are only able to take the mean of vectors that are able to be enuerated (logical and factor vectors), but not vectors that are unable to be enumerated (character vectors).
+When converting the logical vector to a numeric vector, all `TRUE` values are assigned to 1s and all `FALSE` values are assigned to 0s. When converting the character vector to a numeric vector, all elements become `NA`, since chararcter vectors cannot be enumerated. Lastly, when the factor vector is converted into a numeric vector, all elements are enumerated alphabetically, starting from 1 ("Blue" = 1, "Green" = 2, and "Red" = 3). We are only able to take the mean of vectors that are numeric or those that are able to be enuerated (logical and factor vectors). However, we cannot calculate the mean of vectors that are unable to be enumerated (character vectors).
 
-**In a second code chunk:**
+**In another code chunk:**
 
 * **convert the logical vector to numeric, and multiply the random sample by the result**
 * **convert the logical vector to a factor, and multiply the random sample by the result**
 * **convert the logical vector to a factor and then convert the result to numeric, and multiply the random sample by the result**
 
 ```{r}
-as.numeric(pull(Problem1_df, vec_logical)) * pull(Problem1_df, x)
+as.numeric(
+  pull(Problem1_df, vec_logical_p1)) * 
+  pull(Problem1_df, x_p1)
 
-as.factor(pull(Problem1_df, vec_logical)) * pull(Problem1_df, x)
+as.factor(
+  pull(Problem1_df, vec_logical_p1)) * 
+  pull(Problem1_df, x_p1)
 
-as.numeric(as.factor(pull(Problem1_df, vec_logical))) * pull(Problem1_df, x)
+as.numeric(
+  as.factor(
+    pull(Problem1_df, vec_logical_p1))) *
+  pull(Problem1_df, x_p1)
 ```
+Here, we are able to multiply a numeric vector by another numeric vector, but we cannot multiply a factor vector by a numeric vector.
 
 ## Problem 2
 
@@ -92,10 +98,10 @@ set.seed(12345) #Set seed to guarantee reproducible results
 Problem2_df=tibble(
   x = rnorm(n = 500, mean = 0, sd = 1),
   y = rnorm(n = 500, mean = 0, sd = 1),
-  vec_logical = c(x + y > 1),
-  vec_numeric = as.numeric(vec_logical),
-  vec_factor = as.factor(vec_logical)
-)
+  vec_logical_p2 = c(x + y > 1),
+  vec_numeric_p2 = as.numeric(vec_logical_p2),
+  vec_factor_p2 = as.factor(vec_logical_p2)
+  )
 ```
 
 **Write a short description of your vector using inline R code, including:**
@@ -104,40 +110,46 @@ Problem2_df=tibble(
 * **the mean, median, and standard deviation of `x`**
 * **the proportion of cases for which `x + y > 1`**
 
-This data set has `r nrow(Problem2_df)` rows and `r ncol(Problem2_df)` columns. The mean, median, and standard deviation of `x` are `r mean(pull(Problem2_df, x))`, `r median(pull(Problem2_df, x))`, and `r sd(pull(Problem2_df, x))`, respectively. Lastly, the proportion of cases for which `x + y > 1` is `r (length(which(pull(Problem2_df, vec_logical)) == "TRUE") / length(pull(Problem2_df, vec_logical)))`. Therefore, 26% of the `x + y` values are greater than 1.
+This data set has `r nrow(Problem2_df)` rows and `r ncol(Problem2_df)` columns. The mean, median, and standard deviation of `x` are approximately `r round(mean(pull(Problem2_df, x)), digits = 3)`, `r round(median(pull(Problem2_df, x)), digits = 3)`, and `r round(sd(pull(Problem2_df, x)), digits = 3)`, respectively. Lastly, the proportion of cases for which `x + y > 1` is `r (length(which(pull(Problem2_df, vec_logical_p2)) == "TRUE") / length(pull(Problem2_df, vec_logical_p2)))`. Therefore, 26% of the `x + y` values are greater than 1.
 
 **Make a scatterplot of `y` vs `x`; color points using the logical variable (adding `color = ...` inside of `aes` in your `ggplot` code should help). Make a second and third scatterplot that color points using the numeric and factor variables, respectively, and comment on the color scales.**
 
 ```{r}
 #Scatterplot of y vs x (coloring points using logical variable)
-Plot1 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_logical)) + geom_point()
+Plot1 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_logical_p2)) + 
+  geom_point()
+
 Plot1
 ```
 
-In this first plot, the color scale assigns all `FALSE` values in `vec_logical` to red and all `TRUE` values to blue. Therefore, all `x + y > 1` will be blue and all `x + y < 1` will be red.
+In this first plot, the color scale assigns all `FALSE` values in `vec_logical_p2` to red and all `TRUE` values to blue. Therefore, each `x + y > 1` will be blue and each `x + y <= 1` will be red.
 
 ```{r}
 #Scatterplot of y vs x (coloring points using numeric variable)
-Plot2 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_numeric)) + geom_point()
+Plot2 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_numeric_p2)) + 
+  geom_point()
+
 Plot2
 ```
 
-Here, the values of `vec_numeric` are assigned on a continuous color scale, or spectrum. However, since all values of `vec_numeric` are 0 or 1, there are only two point colors displayed in the plot. Dark blue points represent all points in `vec_logical` that are 0, in which `x + y < 1`. Similarly, light blue points represent all points in `vec_logical` that are 1, in which `x + y > 1`.
+Here, the values of `vec_numeric_p2` are assigned on a continuous color spectrum. However, since all values of `vec_numeric_p2` are 0 or 1, there are only two point colors displayed in the plot. Dark blue points represent all points in `vec_logical_p2` that are 0, in which `x + y <= 1`. Similarly, light blue points represent all points in `vec_logical_p2` that are 1, in which `x + y > 1`.
 
 ```{r}
 #Scatterplot of y vs x (coloring points using factor variable)
-Plot3 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_factor)) + geom_point()
+Plot3 = ggplot(Problem2_df, aes(x = x, y = y, color = vec_factor_p2)) + 
+  geom_point()
+
 Plot3
 ```
 
-Lastly, this plot is identical to the first plot. 
+Lastly, the point coloring scheme in this plot is identical to the first plot, since the logical vector (`vec_logical_p2`) is coerced into a factor vector (`vec_factor_p2`), which is still binary with levels `TRUE` and `FALSE`.
 
 **Export your first scatterplot to your project directory using `ggsave`.**
 
 ```{r}
-ggsave(filename = "Problem2_First_Scatterplot.pdf", 
+ggsave(filename = "Problem2_Plot1.pdf", 
        plot = Plot1,
        height = 4,
        width = 6
-)
+       )
 ```
